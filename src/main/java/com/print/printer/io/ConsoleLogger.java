@@ -3,6 +3,9 @@ package com.print.printer.io;
 public class ConsoleLogger implements Logger {
 
   @Override
+  public void print(String string) { System.out.print(string); }
+
+  @Override
   public void printLine(String string) {
     System.out.println(string);
   }

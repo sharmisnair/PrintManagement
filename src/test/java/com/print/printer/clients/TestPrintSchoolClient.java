@@ -82,14 +82,14 @@ public class TestPrintSchoolClient {
   }
 
   @Test
-  public void logPrintCosts_testSumJobs() {
+  public void calculatePrintCosts_testSumJobs() {
     try {
       List<PrintJob> printJobList = new ArrayList<>();
       printJobList.add(new PrintJob("10", "5", "TRUE"));
       printJobList.add(new PrintJob("10", "5", "FALSE"));
 
       PrintSchoolClient printSchoolClient = new PrintSchoolClient(new ConsoleLogger());
-      assertThat(printSchoolClient.logPrintCosts(printJobList)).isEqualTo("3.50");
+      assertThat(printSchoolClient.calculatePrintCosts(printJobList)).isEqualTo("$3.50");
     } catch (Exception e) {
       //Not expecting an exception
       assert(false);
@@ -97,7 +97,7 @@ public class TestPrintSchoolClient {
   }
 
   @Test
-  public void logPrintCosts_testSumRounding() {
+  public void calculatePrintCosts_testSumRounding() {
     try {
       List<PrintJob> printJobList = new ArrayList<>();
       printJobList.add(new PrintJob("25", "10", "FALSE"));
@@ -106,7 +106,7 @@ public class TestPrintSchoolClient {
       printJobList.add(new PrintJob("1","0","FALSE"));
 
       PrintSchoolClient printSchoolClient = new PrintSchoolClient(new ConsoleLogger());
-      assertThat(printSchoolClient.logPrintCosts(printJobList)).isEqualTo("64.10");
+      assertThat(printSchoolClient.calculatePrintCosts(printJobList)).isEqualTo("$64.10");
     } catch (Exception e) {
       //Not expecting an exception
       assert(false);

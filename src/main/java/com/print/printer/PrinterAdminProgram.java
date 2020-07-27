@@ -23,7 +23,7 @@ public class PrinterAdminProgram {
   public void logPrintCosts(String filePath) {
     try {
       List<PrintJob> printJobs = fileProcessor.processInputFile(filePath);
-      printClient.logPrintCosts(printJobs);
+      printClient.calculatePrintCosts(printJobs);
     } catch (Exception e) {
       logger.printException(e);
     }

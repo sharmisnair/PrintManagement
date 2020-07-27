@@ -5,6 +5,7 @@ import com.print.printer.io.Logger;
 import com.print.printer.properties.PrintInkType;
 import com.print.printer.properties.PrintJobType;
 import com.print.printer.properties.PrintPageSize;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,9 +13,9 @@ import java.util.Map;
 public class PrintSchoolClient implements PrintClient {
 
   Logger logger;
-  Double totalCostAllJobs;
+  private static final String DEFAULT_CURRENCY = "$";
 
-  final Map<PrintPageSize, Map<PrintJobType, Map<PrintInkType, Double>>> costMap = Map.of(
+  private static final Map<PrintPageSize, Map<PrintJobType, Map<PrintInkType, Double>>> costMap = Map.of(
       PrintPageSize.A4, Map.of(
           PrintJobType.SINGLE_SIDED, Map.of(
               PrintInkType.BLACK_AND_WHITE, 0.15,
@@ -29,7 +30,6 @@ public class PrintSchoolClient implements PrintClient {
 
   public PrintSchoolClient(Logger logger) {
     this.logger = logger;
-    totalCostAllJobs = 0.0;
   }
 
   @Override
@@ -52,22 +52,35 @@ public class PrintSchoolClient implements PrintClient {
   }
 
   @Override
-  public String logPrintCosts(List<PrintJob> printJobs) {
-    String totalCostString;
+  public String calculatePrintCosts(List<PrintJob> printJobs) {
+
+    Map<PrintJob, String> printJobsCostMap = new HashMap<>();
+    Double totalCostAllJobs = 0.0;
+    String totalCostAsString;
+
     for (PrintJob printJob : printJobs) {
       Double jobCost = getCostPerPrintJob(printJob);
-      logger.printLine(formatMoney(jobCost));
+      printJobsCostMap.put(printJob, formatMoney(jobCost));
       totalCostAllJobs += jobCost;
     }
-    totalCostString = formatMoney(totalCostAllJobs);
+    totalCostAsString = formatMoney(totalCostAllJobs);
+    logPrintJobsForClient(printJobsCostMap, totalCostAsString);
+    return totalCostAsString;
+  }
 
-    logger.printLine("Total cost of all print jobs:" + totalCostString);
-
-    return totalCostString;
+  private void logPrintJobsForClient(Map<PrintJob, String> printJobsCostMap, String totalCost) {
+    printJobsCostMap.forEach((printJob, jobCost) -> {
+      logger.print("Printing Cost: " + jobCost + " FOR" +
+          " pageSize= " + printJob.getPageSize() +
+          " jobType= " + printJob.getJobType() +
+          " color= " + printJob.getNumColorPages() +
+          " B&W=" + printJob.getNumBlackAndWhitePages() + "\n");
+    });
+    logger.printLine("Total cost of all print jobs:" + totalCost);
   }
 
   private String formatMoney(Double amount) {
-    return String.format("%.2f", amount);
+    return String.format(DEFAULT_CURRENCY + "%.2f", amount);
   }
 
 }

@@ -7,5 +7,6 @@ public interface PrintClient {
 
   Double getCostPerPrintJob(PrintJob printJob);
 
-  String logPrintCosts(List<PrintJob> printJobs);
+  // Returning total cost as String which is formatted to currency format
+  String calculatePrintCosts(List<PrintJob> printJobs);
 }
