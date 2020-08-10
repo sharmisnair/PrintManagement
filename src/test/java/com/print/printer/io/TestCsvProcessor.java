@@ -12,18 +12,12 @@ public class TestCsvProcessor {
   private static final String DEFAULT_FILE_DIR = "src/test/resources/";
 
   @Test
-  public void processInputFile_testValidWithSpacesCSV() {
-    try {
+  public void processInputFile_testValidWithSpacesCSV() throws Exception {
       FileProcessor fileProcessor = new CsvProcessor();
       List<PrintJob> printJobs = fileProcessor
           .processInputFile(DEFAULT_FILE_DIR + "validTest.csv");
 
       assertThat(printJobs.size()).isEqualTo(4);
-
-    } catch (Exception e) {
-      //Not expecting an exception
-      assert (false);
-    }
   }
 
 
@@ -39,18 +33,11 @@ public class TestCsvProcessor {
   }
 
   @Test
-  public void processInputFile_testIgnoreExtraColumnCSV() {
-
-    try {
+  public void processInputFile_testIgnoreExtraColumnCSV() throws Exception {
       FileProcessor fileProcessor = new CsvProcessor();
       List<PrintJob> printJobs = fileProcessor
           .processInputFile(DEFAULT_FILE_DIR + "validTest.csv");
 
       assertThat(printJobs.size()).isEqualTo(4);
-
-    } catch (Exception e) {
-      //Not expecting an exception
-      assert (false);
-    }
   }
 }

@@ -10,33 +10,21 @@ import org.junit.Test;
 public class TestPrintJob {
 
   @Test
-  public void PrintJob_testSingleSidedConstruction() {
-
-    try {
+  public void PrintJob_testSingleSidedConstruction() throws Exception {
       PrintJob printJob  = new PrintJob("10", "5", "FALSE");
       assertThat(printJob.getPageSize()).isEqualTo(PrintPageSize.A4);
       assertThat(printJob.getJobType()).isEqualTo(PrintJobType.SINGLE_SIDED);
       assertThat(printJob.getNumColorPages()).isEqualTo(5);
       assertThat(printJob.getNumBlackAndWhitePages()).isEqualTo(5);
-    } catch (Exception e) {
-      //Not expecting an exception
-      assert(false);
-    }
   }
 
   @Test
-  public void PrintJob_testDoubleSidedConstruction() {
-
-    try {
+  public void PrintJob_testDoubleSidedConstruction() throws Exception {
       PrintJob printJob  = new PrintJob("10", "5", "TRUE");
       assertThat(printJob.getPageSize()).isEqualTo(PrintPageSize.A4);
       assertThat(printJob.getJobType()).isEqualTo(PrintJobType.DOUBLE_SIDED);
       assertThat(printJob.getNumColorPages()).isEqualTo(5);
       assertThat(printJob.getNumBlackAndWhitePages()).isEqualTo(5);
-    } catch (Exception e) {
-      //Not expecting an exception
-      assert(false);
-    }
   }
 
   @Test
